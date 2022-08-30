@@ -1,0 +1,15 @@
+# fly.toml file generated for little-river-5796 on 2022-08-31T11:57:43+02:00
+
+app = "little-river-5796"
+
+[[services]]
+  internal_port = 3000
+  protocol = "tcp"
+
+  [[services.ports]]
+    handlers = ["http"]
+    port = "80"
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = "443"
