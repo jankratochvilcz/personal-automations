@@ -12,6 +12,8 @@ RUN npm install rimraf -g && \
     rimraf ['node_modules']
 
 RUN npm ci
+RUN npm run build
+RUN npm prune --production
 
 EXPOSE 3000
 EXPOSE 8080
