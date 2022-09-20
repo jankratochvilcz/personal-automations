@@ -1,4 +1,5 @@
 import { Controller, Get, Render } from '@nestjs/common';
+import { ApiHeader } from '@nestjs/swagger';
 import { formatDistance, parseISO } from 'date-fns';
 
 import { BitBucketService } from './bitBucket.service';
@@ -26,6 +27,8 @@ const getWithFixedLength = (name: string, length: number) => {
 };
 
 @Controller('bitbucket/pulls/opened')
+@ApiHeader({ name: 'x-bitbucket-username' })
+@ApiHeader({ name: 'x-bitbucket-password' })
 export class BitBucketPullRequestsController {
   constructor(private readonly bitBucketService: BitBucketService) {}
 
