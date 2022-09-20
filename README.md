@@ -6,6 +6,8 @@ The production root URL is https://little-river-5796.fly.dev.
 
 ## Features
 
+Complete documentation at https://little-river-5796.fly.dev/api or https://little-river-5796.fly.dev/api-json in OpenAPI spec form.
+
 ### bitbucket/pulls/opened
 
 Provides a list of all your open PRs in BitBucket, along with creation days and reviewers.

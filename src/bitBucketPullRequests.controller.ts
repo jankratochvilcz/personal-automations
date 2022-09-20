@@ -1,5 +1,5 @@
 import { Controller, Get, Render } from '@nestjs/common';
-import { ApiHeader } from '@nestjs/swagger';
+import { ApiHeader, ApiOperation } from '@nestjs/swagger';
 import { formatDistance, parseISO } from 'date-fns';
 
 import { BitBucketService } from './bitBucket.service';
@@ -34,6 +34,10 @@ export class BitBucketPullRequestsController {
 
   @Get()
   @Render('bitBucketPullRequests')
+  @ApiOperation({
+    description:
+      'Provides a list of all your open PRs in BitBucket, along with creation days and reviewers. Optimized for pasting inside a code-block within Slack. Credentials are not stored on the server, the server only passes them trough to BitBucket.',
+  })
   async get(): Promise<GetResponse> {
     const pullRequests = await this.bitBucketService.getPRsForUser();
 
