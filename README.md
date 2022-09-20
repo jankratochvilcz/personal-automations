@@ -1,9 +1,5 @@
 # Personal Automations
 
-## Pre-Requisites
-
-1. Slack: [Enable Markdown formatting](https://www.howtogeek.com/450030/how-to-enable-classic-markdown-text-formatting-in-slack/)
-
 ## Production
 
 The production root URL is https://little-river-5796.fly.dev.
