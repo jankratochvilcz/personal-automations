@@ -1,6 +1,10 @@
 {{#each pullRequests}}
-{{{name}}}
+{{#if isStale}}💤 {{/if}}{{{name}}}
 ⏳ {{created}} 🧑‍⚖️ {{reviewers}}
 🔗 {{url}}
 
 {{/each}}
+
+{{#if anyStalePullRequests}}
+💤: No activity in the last 24 hours
+{{/if}}

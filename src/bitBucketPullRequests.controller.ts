@@ -1,6 +1,6 @@
 import { Controller, Get, Param, Render } from '@nestjs/common';
 import { ApiHeader, ApiOperation } from '@nestjs/swagger';
-import { formatDistance, parseISO } from 'date-fns';
+import { differenceInHours, formatDistance, parseISO } from 'date-fns';
 
 import { BitBucketService } from './bitBucket.service';
 import { range } from './utils/number';
@@ -11,6 +11,7 @@ type GetResponse = {
     url: string;
     created: string;
   }[];
+  anyStalePullRequests: boolean;
 };
 
 const getWithFixedLength = (name: string, length: number) => {
@@ -49,6 +50,10 @@ export class BitBucketPullRequestsController {
       .map((x) => ({
         name: x.title,
         url: x.links.html.href,
+        hoursSinceLastUpdate: differenceInHours(
+          new Date(),
+          parseISO(x.updated_on),
+        ),
         created: `from ${formatDistance(
           parseISO(x.created_on),
           new Date(),
@@ -77,9 +82,10 @@ export class BitBucketPullRequestsController {
     const effectiveLongestTitleLength = Math.min(longestTitleLength, 60);
 
     const pullRequestsFormattedTabular = pullRequestsFormatted.map(
-      ({ name, url, created, reviewers }) => ({
+      ({ name, url, created, reviewers, hoursSinceLastUpdate }) => ({
         name: getWithFixedLength(name, effectiveLongestTitleLength),
         url,
+        isStale: hoursSinceLastUpdate > 24,
         created: getWithFixedLength(created, longestCreatedLength),
         reviewers: getWithFixedLength(reviewers, longestReviewersLength),
       }),
@@ -87,6 +93,7 @@ export class BitBucketPullRequestsController {
 
     return {
       pullRequests: pullRequestsFormattedTabular,
+      anyStalePullRequests: pullRequestsFormattedTabular.some((x) => x.isStale),
     };
   }
 }
