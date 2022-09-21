@@ -49,11 +49,11 @@ export class BitBucketService {
     return response.data;
   }
 
-  async getPRsForUser(): Promise<BitBucketPullRequest[]> {
+  async getPRsForUser(username: string): Promise<BitBucketPullRequest[]> {
     const credentials = this.credentialsService.get();
 
     const response = await axios.get<PullRequestsForUserResponse>(
-      `${baseUrl}pullrequests/${credentials.username}`,
+      `${baseUrl}pullrequests/${username}`,
       {
         auth: credentials,
       },

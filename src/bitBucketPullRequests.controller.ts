@@ -1,4 +1,4 @@
-import { Controller, Get, Render } from '@nestjs/common';
+import { Controller, Get, Param, Render } from '@nestjs/common';
 import { ApiHeader, ApiOperation } from '@nestjs/swagger';
 import { formatDistance, parseISO } from 'date-fns';
 
@@ -32,14 +32,14 @@ const getWithFixedLength = (name: string, length: number) => {
 export class BitBucketPullRequestsController {
   constructor(private readonly bitBucketService: BitBucketService) {}
 
-  @Get()
+  @Get(':username')
   @Render('bitBucketPullRequests')
   @ApiOperation({
     description:
       'Provides a list of all your open PRs in BitBucket, along with creation days and reviewers. Optimized for pasting inside a code-block within Slack. Credentials are not stored on the server, the server only passes them trough to BitBucket.',
   })
-  async get(): Promise<GetResponse> {
-    const pullRequests = await this.bitBucketService.getPRsForUser();
+  async get(@Param('username') username: string): Promise<GetResponse> {
+    const pullRequests = await this.bitBucketService.getPRsForUser(username);
 
     const pullRequestsFormatted = pullRequests
       .sort(
