@@ -74,7 +74,7 @@ export class BitBucketPullRequestsController {
       ...pullRequestsFormatted.map((x) => x.reviewers.length),
     );
 
-    const effectiveLongestTitleLength = Math.min(longestTitleLength, 50);
+    const effectiveLongestTitleLength = Math.min(longestTitleLength, 60);
 
     const pullRequestsFormattedTabular = pullRequestsFormatted.map(
       ({ name, url, created, reviewers }) => ({
